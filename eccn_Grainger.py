@@ -11,7 +11,7 @@ from oauth2client.service_account import ServiceAccountCredentials  # type: igno
 with open('credentials.json') as f:
     credentials = json.load(f)
 
-# Extract credentials
+# Extract credentials   
 zoho_params = credentials.get('zoho_params')
 
 # Step 1: Fetch data from Zoho
@@ -54,10 +54,11 @@ def fetch_data_from_zoho():
 
         df = pd.DataFrame(rows_data)
         df['grkey']=df['Raptor Invoice'].str.split('|').str[0]+df['Grainger SKU']
+        df[['Remarks','CRM Update Status']]=''
 
         # Reorder columns as needed
         ordered_columns = ['Subform_id', 'Lead Zoho ID', 'version_id', 'Product_id', 'Product Name', 'Version Sheet.Stage', 'Raptor Invoice','grkey', 'Date of Order Received', 'Shipping Country', 'Inco Term', 'Raptor SKU',
-                           'Grainger SKU', 'Grainger/Non_Grainger', 'Rpt_Billing_Entity_supplier', 'ECCN', 'HS_code', 'COO'
+                           'Grainger SKU', 'Grainger/Non_Grainger', 'Rpt_Billing_Entity_supplier', 'ECCN', 'HS_code', 'COO''Remarks','CRM Update Status'
                            ]
         df = df.reindex(columns=ordered_columns, fill_value=None)
         
@@ -129,9 +130,10 @@ def sort_and_append_to_gsheets(zoho_df, gsheets_df, sheet_name, worksheet_name, 
     merged_df = pd.concat([merged_df, new_rows], ignore_index=True)
 
     # Sort the dataframe by 'Date of Order Received' in descending order
-    sorted_df = merged_df.sort_values(by='Date of Order Received', ascending=False, na_position='last')
+    sorted_df = merged_df.sort_values(by=['Date of Order Received', 'Raptor Invoice'], 
+                                    ascending=[False, True], na_position='last')
 
-    # Convert datetime back to 'dd/mm/yyyy' format
+    # Convert 'Date of Order Received' back to 'dd/mm/yyyy' format
     sorted_df['Date of Order Received'] = sorted_df['Date of Order Received'].dt.strftime('%d/%m/%Y')
 
     # Replace NaT and NaN with an empty string
@@ -139,7 +141,7 @@ def sort_and_append_to_gsheets(zoho_df, gsheets_df, sheet_name, worksheet_name, 
 
     # Reorder columns as needed
     new_order = ['Subform_id', 'Lead Zoho ID', 'version_id', 'Product_id', 'Product Name', 'Version Sheet.Stage', 'Raptor Invoice','grkey', 'Date of Order Received', 'Shipping Country', 'Inco Term', 'Raptor SKU',
-                 'Grainger SKU', 'Grainger/Non_Grainger', 'Rpt_Billing_Entity_supplier', 'ECCN', 'HS_code', 'COO']
+                 'Grainger SKU', 'Grainger/Non_Grainger', 'Rpt_Billing_Entity_supplier', 'ECCN', 'HS_code', 'COO','Remarks','CRM Update Status']
     sorted_df = sorted_df[new_order]
 
     # Replace all rows in Google Sheets with the updated and new data

@@ -3,7 +3,7 @@ import time
 
 # Run ff.py
 print("Running eccn.py...")
-subprocess.run(["python", "eccn_2_Grainger.py"])
+subprocess.run(["python", "eccn_Grainger.py"])
 
 # Wait for 5 seconds (optional, if you need to delay between scripts)
 time.sleep(1)

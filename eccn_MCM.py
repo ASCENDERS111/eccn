@@ -3,7 +3,7 @@ import gspread  # type: ignore
 import pandas as pd  # type: ignore
 import re
 import numpy as np  # type: ignore
-import requests # type: ignore
+import requests
 import xml.etree.ElementTree as ET
 from oauth2client.service_account import ServiceAccountCredentials  # type: ignore
 
@@ -33,7 +33,7 @@ def fetch_data_from_zoho():
         print(f"Failed to obtain Zoho token. Status code: {response.status_code}")
         exit()
 
-    url = "https://analyticsapi.zoho.com/api/ashutosh@raptorsupplies.com/Zoho%20CRM%20Analytics/Report%20for%20ECCN_Grainger%20Products?ZOHO_ACTION=EXPORT&ZOHO_OUTPUT_FORMAT=XML&ZOHO_ERROR_FORMAT=XML&ZOHO_API_VERSION=1.0"
+    url = "https://analyticsapi.zoho.com/api/ashutosh@raptorsupplies.com/Zoho%20CRM%20Analytics/Report_for_ECCN_Mcmaster_Products?ZOHO_ACTION=EXPORT&ZOHO_OUTPUT_FORMAT=XML&ZOHO_ERROR_FORMAT=XML&ZOHO_API_VERSION=1.0"
 
     headers = {
         "Authorization": f"Zoho-oauthtoken {access_token}"
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     zoho_df = fetch_data_from_zoho()
 
     # Fetch data from Google Sheets
-    gsheets_df = fetch_data_from_gsheets('Grainger / MCM invoice products', 'Grainger', 'divine-arcade-406611-e0729e40870d.json')
+    gsheets_df = fetch_data_from_gsheets('Grainger / MCM invoice products', 'MCM', 'divine-arcade-406611-e0729e40870d.json')
 
     # Sort, combine, and append all rows (Zoho + Google Sheets) to Google Sheets
-    sort_and_append_to_gsheets(zoho_df, gsheets_df, 'Grainger / MCM invoice products', 'Grainger', 'divine-arcade-406611-e0729e40870d.json')
+    sort_and_append_to_gsheets(zoho_df, gsheets_df, 'Grainger / MCM invoice products', 'MCM', 'divine-arcade-406611-e0729e40870d.json')

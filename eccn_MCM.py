@@ -57,7 +57,7 @@ def fetch_data_from_zoho():
         df[['Remarks','CRM Update Status']]=''
 
         # Reorder columns as needed
-        ordered_columns = ['Subform_id', 'Lead Zoho ID', 'version_id', 'Product_id','SNO', 'Product Name', 'Version Sheet.Stage', 'Raptor Invoice','grkey', 'Date of Order Received', 'Shipping Country', 'Inco Term', 'Raptor SKU',
+        ordered_columns = ['Invoice_ID','Subform_id', 'Lead Zoho ID', 'version_id', 'Product_id','SNO', 'Product Name', 'Version Sheet.Stage', 'Raptor Invoice','grkey', 'Date of Order Received', 'Shipping Country', 'Inco Term', 'Raptor SKU',
                            'Grainger SKU', 'Grainger/Non_Grainger', 'Rpt_Billing_Entity_supplier', 'ECCN', 'HS_code', 'COO''Remarks','CRM Update Status'
                            ]
         df = df.reindex(columns=ordered_columns, fill_value=None)
@@ -140,7 +140,7 @@ def sort_and_append_to_gsheets(zoho_df, gsheets_df, sheet_name, worksheet_name, 
     sorted_df = sorted_df.replace({'NaT': '', 'NaN': '', np.nan: ''})
 
     # Reorder columns as needed
-    new_order = ['Subform_id', 'Lead Zoho ID', 'version_id', 'Product_id', 'SNO','Product Name', 'Version Sheet.Stage', 'Raptor Invoice','grkey', 'Date of Order Received', 'Shipping Country', 'Inco Term', 'Raptor SKU',
+    new_order = ['Invoice_ID','Subform_id', 'Lead Zoho ID', 'version_id', 'Product_id', 'SNO','Product Name', 'Version Sheet.Stage', 'Raptor Invoice','grkey', 'Date of Order Received', 'Shipping Country', 'Inco Term', 'Raptor SKU',
                  'Grainger SKU', 'Grainger/Non_Grainger', 'Rpt_Billing_Entity_supplier', 'ECCN', 'HS_code', 'COO','Remarks','CRM Update Status']
     sorted_df = sorted_df[new_order]
 
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     zoho_df = fetch_data_from_zoho()
 
     # Fetch data from Google Sheets
-    gsheets_df = fetch_data_from_gsheets('Grainger / MCM invoice products', 'MCM', 'divine-arcade-406611-e0729e40870d.json')
+    gsheets_df = fetch_data_from_gsheets('Grainger / MCM invoice products', 'MCM_3', 'divine-arcade-406611-e0729e40870d.json')
 
     # Sort, combine, and append all rows (Zoho + Google Sheets) to Google Sheets
-    sort_and_append_to_gsheets(zoho_df, gsheets_df, 'Grainger / MCM invoice products', 'MCM', 'divine-arcade-406611-e0729e40870d.json')
+    sort_and_append_to_gsheets(zoho_df, gsheets_df, 'Grainger / MCM invoice products', 'MCM_3', 'divine-arcade-406611-e0729e40870d.json')

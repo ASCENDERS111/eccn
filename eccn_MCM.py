@@ -178,7 +178,7 @@ if __name__ == "__main__":
     zoho_df = fetch_data_from_zoho()
 
     # Fetch data from Google Sheets
-    gsheets_df = fetch_data_from_gsheets('Grainger / MCM invoice products', 'MCM_3', 'divine-arcade-406611-e0729e40870d.json')
+    gsheets_df = fetch_data_from_gsheets('Grainger / MCM invoice products', 'MCM', 'divine-arcade-406611-e0729e40870d.json')
 
     # Sort, combine, and append all rows (Zoho + Google Sheets) to Google Sheets
-    sort_and_append_to_gsheets(zoho_df, gsheets_df, 'Grainger / MCM invoice products', 'MCM_3', 'divine-arcade-406611-e0729e40870d.json')
+    sort_and_append_to_gsheets(zoho_df, gsheets_df, 'Grainger / MCM invoice products', 'MCM', 'divine-arcade-406611-e0729e40870d.json')
